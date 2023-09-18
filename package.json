@@ -5,6 +5,7 @@
   "repository": "https://github.com/totobon6125/rabbit_footprint_be.git",
   "author": "totobon <totobon6125@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@prisma/client": "^5.3.1",
     "bcrypt": "^5.1.1",
