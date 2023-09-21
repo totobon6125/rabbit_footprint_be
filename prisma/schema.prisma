@@ -32,6 +32,7 @@ model Posts {
   relationship  String    @map("relationship")
   createdAt     DateTime  @default(now()) @map("createdAt")
   updatedAt     DateTime  @updatedAt @map("updatedAt")
+  editCount     Int       @default(0) @map("editCount")
 
   User Users @relation(fields: [WriterId], references: [userId], onDelete: Cascade)
 

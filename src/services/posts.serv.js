@@ -7,22 +7,29 @@ export class PostsServ {
   postsRepository = new PostsRepo();
 
   // (1) 게시글 생성 API
-  createPost = async (userId, relationship, content, receiverId, editCount) => {
+  createPost = async (
+    WriterId,
+    receiverId,
+    relationship,
+    content
+    // editCount
+  ) => {
     const createdPost = await this.postsRepository.createPost(
-      userId,
-      relationship,
-      content,
+      WriterId,
       receiverId,
-      editCount
+      relationship,
+      content
+      // editCount
     );
 
     return {
       postId: createdPost.postId,
-      nickname: createdPost.nickname,
+      // nickname: createdPost.nickname,
+      WriterId: createdPost.WriterId,
       relationship: createdPost.relationship,
       content: createdPost.content,
       receiverId: createdPost.receiverId,
-      editCout: createdPost.editCount,
+      // editCout: createdPost.editCount,
       createdAt: createdPost.createdAt,
       updatedAt: createdPost.updatedAt,
     };
@@ -33,10 +40,7 @@ export class PostsServ {
     const posts = await this.postsRepository.findPostWrittenToMeById(
       receiverId
     );
-    //! posts 에는 contents 와 password 가 함께 조회되기 때문에 아래에서 map 을 통해 두 값을 제외한 나머지를 출력함.
 
-    // 게시글을 생성 날짜로 부터 내림차순으로 정렬함.
-    //# 정렬작업 하기 sort 로 인해 원본이 정렬 됨!!
     posts.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
@@ -45,6 +49,8 @@ export class PostsServ {
     return posts.map((post) => {
       return {
         postId: post.postId,
+        WriterId: post.WriterId,
+        receiverId: post.receiverId,
         nickname: post.nickname,
         content: post.content,
         createdAt: post.createdAt,
@@ -56,10 +62,7 @@ export class PostsServ {
   // (3) 내가 쓴 게시글 조회 API
   findPostIWroteById = async (WriterId) => {
     const posts = await this.postsRepository.findPostIWroteById(WriterId);
-    //! posts 에는 contents 와 password 가 함께 조회되기 때문에 아래에서 map 을 통해 두 값을 제외한 나머지를 출력함.
 
-    // 게시글을 생성 날짜로 부터 내림차순으로 정렬함.
-    //# 정렬작업 하기 sort 로 인해 원본이 정렬 됨!!
     posts.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
@@ -68,6 +71,8 @@ export class PostsServ {
     return posts.map((post) => {
       return {
         postId: post.postId,
+        WriterId: post.WriterId,
+        receiverId: post.receiverId,
         nickname: post.nickname,
         content: post.content,
         createdAt: post.createdAt,
@@ -77,17 +82,19 @@ export class PostsServ {
   };
 
   // (4) 내가 쓴 게시글 1회 수정 API
-  updatePost = async (postId, password, relationship, content, receiverId) => {
+  updatePost = async (postId, WriterId, relationship, content, receiverId) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const postInfo = await this.postsRepository.findPostById(postId);
     if (!postInfo) throw new Error("존재하지 않는 게시글입니다.");
-    if (postInfo.UserId !== userId) throw new Error("게시글을 수정할 권한이 없습니다")
-    if (postInfo.editCount >= 1) throw new Error("게시글은 한 번만 수정이 가능합니다.")
+    if (postInfo.WriterId !== WriterId)
+      throw new Error("게시글을 수정할 권한이 없습니다");
+    if (postInfo.editCount >= 1)
+      throw new Error("게시글은 한 번만 수정이 가능합니다.");
 
     // 저장소(Repository)에게 데이터 수정을 요청합니다.
     await this.postsRepository.updatePost(
       postId,
-      password,
+      WriterId,
       relationship,
       content,
       receiverId,
@@ -99,9 +106,11 @@ export class PostsServ {
 
     return {
       postId: updatedPost.postId,
-      nickname: updatedPost.nickname,
+      WriterId: updatedPost.WriterId,
+      // nickname: updatedPost.nickname,
       relationship: updatedPost.relationship,
       content: updatedPost.content,
+      receiverId: updatedPost.receiverId,
       createdAt: updatedPost.createdAt,
       updatedAt: updatedPost.updatedAt,
     };
