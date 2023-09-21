@@ -21,7 +21,7 @@ app.use(cors({
 
 
 app.get("/", (req, res) => {
-  return res.json({ message: "환영 합니당!@@@@@@@@@." });
+  return res.json({ message: "환영 합니당!@@@@@." });
 });
 
 app.use("/api", [indexRouter]);
