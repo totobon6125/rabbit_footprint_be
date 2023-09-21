@@ -14,6 +14,7 @@ export class SignUpCtr {
             
             //! email 중복확인
             await this.signUpService.findUserByEmail(email);
+            // 레포지토리에서 출발한 error 는 try-catch 를 통해 catch(err) 로 잡혀 갑니다.
 
             //! 비밀번호 확인
             const passwordRegex = new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9]).{4,}$/i);
@@ -26,7 +27,8 @@ export class SignUpCtr {
             return res.status(201).json({ message: '회원가입에 성공하였습니다.' });
 
         } catch (err) {
-            
+            // 잡혀온 에로는 next(err)를 통해 에러 핸들러로 이동합니다. 만약 ( ) 안에 인자가 설정되어 있지 않다면 다음 미들웨어로 넘어가지만 (err) 이 있기에 에러 핸들러로 이동합니다.
+            // app.js 의 errhandler 를 통해 미들웨어 폴더의 error.middleware 로 이동합니다.ㄴ
             next(err);
         }
     }

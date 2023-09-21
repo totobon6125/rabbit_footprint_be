@@ -14,6 +14,7 @@ model Users {
   userId    Int      @id @default(autoincrement()) @map("userId")
   email     String   @unique @map("email")
   password  String   @map("password")
+
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
 
@@ -30,6 +31,7 @@ model Posts {
   WriterId      Int       @map("WriterId")
   content       String    @map("content") @db.Text
   relationship  String    @map("relationship")
+
   createdAt     DateTime  @default(now()) @map("createdAt")
   updatedAt     DateTime  @updatedAt @map("updatedAt")
   editCount     Int       @default(0) @map("editCount")
@@ -44,7 +46,7 @@ model UserInfos {
   userInfoId    Int      @id @default(autoincrement()) @map("userInfoId")
   UserId        Int      @unique @map("UserId")
   nickname      String   @map("nickname") 
-  profileImage  String   @map("profileImage")
+  profileImage  String?  @map("profileImage")
 
   createdAt     DateTime @default(now()) @map("createdAt")
   updatedAt     DateTime @updatedAt @map("updatedAt")
