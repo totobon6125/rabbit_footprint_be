@@ -15,7 +15,7 @@ export class PostsCtr {
       const { WriterId } = req.body; // 작성자
       const { receiverId } = req.params; // 받는자
       const { relationship, content } = req.body;
-      // const { nickname, password } = req.user;
+      // const { WriterId, nickname, password } = req.user;
 
       const createPost = await this.postsService.createPost(
         WriterId,
