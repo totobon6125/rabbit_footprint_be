@@ -7,10 +7,10 @@ export class SignInCtr {
     signIn = async (req, res, next) => {
         try {
             const { email, password } = req.body;
-
             const token = await this.signInService.signIn(email, password);
 
-            res.cookie('Authorization', `Bearer ${token}`);
+            //? cookie 매서드가 아닌 header 매서드를 사용해야 FE가 res.header 에서 받아서 사용할 수 있다.
+            res.header('Authorization', `Bearer ${token}`);
 
             return res.status(200).json({ Message: "로그인 성공" });
         } catch (err) {
@@ -31,6 +31,7 @@ export class SignInCtr {
         }
     }
 
+    // 토큰 확인 용 
     token = async (req, res, next) => {
         try {
             const token = req.headers.cookie;
