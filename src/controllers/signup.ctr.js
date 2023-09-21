@@ -24,7 +24,9 @@ export class SignUpCtr {
             await this.signUpService.signUp(email, password);
 
             return res.status(201).json({ message: '회원가입에 성공하였습니다.' });
+
         } catch (err) {
+            
             next(err);
         }
     }

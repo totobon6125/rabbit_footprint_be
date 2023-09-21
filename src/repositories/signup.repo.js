@@ -1,4 +1,6 @@
 import { prisma } from '../utils/prisma/index.js'
+import { CustomError } from '../errors/customError.js'
+
 
 export class SignUpRepo {
 
@@ -10,21 +12,19 @@ export class SignUpRepo {
                 password
             }
         });
-        
+
         return signUp;
     };
-    
+
     //! 회원가입 email 중복확인
     findUserByEmail = async (email) => {
         const eMail = await prisma.users.findUnique({
-            where: {email}
+            where: { email }
         });
-        if(eMail) {
-            throw new CustomError(412,'중복된 닉네임입니다')
+        if (eMail) {
+            throw new CustomError(412, '중복된 닉네임입니다')
         };
 
-        
-        
         return eMail;
     };
 };

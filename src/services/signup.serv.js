@@ -17,6 +17,6 @@ export class SignUpServ {
     findUserByEmail = async (email) => {
         const user = await this.signUpRepository.findUserByEmail(email)
 
-        return user;
+        return user; //안감 바로 쓰로우 됨!!
     };
 }
