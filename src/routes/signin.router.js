@@ -13,6 +13,6 @@ router.post('/signin', signInController.signIn);
 // router.post('/signout', signInController.signOut); 
 
 // * 재발급
-router.get('/token', signInController.token); 
+router.post('/retoken', signInController.refreshAccessToken); 
 
 export default router;
