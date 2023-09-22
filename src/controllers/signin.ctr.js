@@ -14,27 +14,34 @@ export class SignInCtr {
             res.header('accessToken', `${token.accessToken}`);
             res.header('refreshToken', `${token.refreshToken}`);
 
+            const userIds = (data) => {
+                const userId = data.userId.map(item => item.userId);
+                return userId;
+            };
+
+            const userId = userIds(token);
+
             /* res.cookie('Authorization', `Bearer ${token}`);
                res.cookie 는 FE와 BE 도메인이 같은 경우에만 가능하다 */
 
-            return res.status(200).json({ Message: "로그인 성공", data: token });
+            return res.status(200).json({ Message: "로그인 성공", data: userId });
         } catch (err) {
             next(err)
         }
     }
-/*     signIn = async (req, res, next) => {
-        try {
-            const { email, password } = req.body;
-            const token = await this.signInService.signIn(email, password);
-
-            // cookie 매서드가 아닌 header 매서드를 사용해야 FE가 res.header 에서 받아서 사용할 수 있다.
-            res.header('Authorization', `Bearer ${token}`);
-
-            return res.status(200).json({ Message: "로그인 성공" });
-        } catch (err) {
-            next(err)
-        }
-    } */
+    /*     signIn = async (req, res, next) => {
+            try {
+                const { email, password } = req.body;
+                const token = await this.signInService.signIn(email, password);
+    
+                // cookie 매서드가 아닌 header 매서드를 사용해야 FE가 res.header 에서 받아서 사용할 수 있다.
+                res.header('Authorization', `Bearer ${token}`);
+    
+                return res.status(200).json({ Message: "로그인 성공" });
+            } catch (err) {
+                next(err)
+            }
+        } */
 
     // // 로그 아웃 API
     // signOut = async (req, res, next) => {
