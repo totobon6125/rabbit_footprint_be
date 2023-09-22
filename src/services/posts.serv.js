@@ -9,14 +9,14 @@ export class PostsServ {
   // (1) 게시글 생성 API
   createPost = async (
     WriterId,
-    receiverId,
+    // receiverId,
     relationship,
     content
     // editCount
   ) => {
     const createdPost = await this.postsRepository.createPost(
       WriterId,
-      receiverId,
+      // receiverId,
       relationship,
       content
       // editCount
@@ -28,7 +28,7 @@ export class PostsServ {
       WriterId: createdPost.WriterId,
       relationship: createdPost.relationship,
       content: createdPost.content,
-      receiverId: createdPost.receiverId,
+      // receiverId: createdPost.receiverId,
       // editCout: createdPost.editCount,
       createdAt: createdPost.createdAt,
       updatedAt: createdPost.updatedAt,

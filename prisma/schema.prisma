@@ -28,7 +28,7 @@ model Users {
 
 model Posts {
   postId        Int       @id @default(autoincrement()) @map("postId")
-  receiverId    Int       @map("receiverId")
+  receiverId    Int?      @map("receiverId")
   WriterId      Int       @map("WriterId")
   content       String    @map("content") @db.Text
   relationship  String    @map("relationship")

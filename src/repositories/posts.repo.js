@@ -23,7 +23,7 @@ export class PostsRepo {
       select: {
         postId: true,
         WriterId: true,
-        receiverId: true,
+        // receiverId: true,
         relationship: true,
         content: true,
         createdAt: true,
