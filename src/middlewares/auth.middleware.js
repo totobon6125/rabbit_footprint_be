@@ -5,7 +5,9 @@ export default async function (req, res, next) {
     try {
         // 1. 클라이언트로부터 쿠키(Cookie)를 전달받습니다.
         const cookies = req.cookies;
-        console.log("cookie:", req.cookies)
+        const header = req.header;
+        console.log("header:", req.headers)
+        console.log("cookies:", req.cookies)
 
         const accessToken = cookies.accessToken;
         const refreshToken = cookies.refreshToken;
@@ -34,6 +36,7 @@ export default async function (req, res, next) {
         // 5. 다음 미들웨어를 실행합니다.
         next();
     } catch (error) {
+
         res.clearCookie('accessToken');
         res.clearCookie('refreshToken');
 

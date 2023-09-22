@@ -13,7 +13,7 @@ export class PostsCtr {
   createPost = async (req, res, next) => {
     try {
       const { userId } = req.user; // 작성자
-      // const { receiverId } = req.params; // 받는자
+      const { receiverId } = req.params; // 받는자
       const { relationship, content } = req.body;
       // const { WriterId, nickname, password } = req.user;
 
