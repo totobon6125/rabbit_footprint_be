@@ -4,5 +4,6 @@ auth.middleware.prac2.js
 signin.repo.prac.js
 signin.repo.prac2.js
 signup.repo.prac.js
+signup.ctr.prac.js
 # Keep environment variables out of version control
 .env
