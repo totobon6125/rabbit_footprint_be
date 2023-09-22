@@ -1,30 +1,55 @@
+import bcrypt from 'bcrypt';
+
 import { prisma } from '../utils/prisma/index.js'
+import { CustomError } from '../errors/customError.js'
 
 export class SignUpRepo {
-
     //# 회원 가입
-    signUp = async (email, password) => {
-        const signUp = await prisma.users.create({
+    signUp = async (email, nickname, password) => {
+        // 비밀번호 해싱
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // 사용자 생성
+        const user = await prisma.users.create({
             data: {
                 email,
-                password
-            }
+                password: hashedPassword,
+            },
         });
-        
-        return signUp;
-    };
+
+        // 사용자 정보 생성 및 사용자와 연결
+        const userInfo = await prisma.userInfos.create({
+            data: {
+                nickname,
+                User: { connect: { userId: user.userId } }
+            },
+        });
+
+        return { user, userInfo };
+    }
     
     //! 회원가입 email 중복확인
     findUserByEmail = async (email) => {
         const eMail = await prisma.users.findUnique({
-            where: {email}
+            where: { email }
         });
-        if(eMail) {
-            throw new CustomError(412,'중복된 닉네임입니다')
+        if (eMail) { // 이 에러는 return으로 빠지는 것이 아닌 throw 를 통해 서비스 계층으로 이동 합니다.
+            throw new CustomError(412, '중복된 email 입니다')
         };
 
-        
-        
         return eMail;
+    };
+
+
+    //! 회원가입 nickname 중복확인
+    findUserByNickName = async (nickname) => {
+        const nickName = await prisma.UserInfos.findUnique({
+            where: { nickname }
+        });
+        if (nickName) { // 이 에러는 return으로 빠지는 것이 아닌 throw 를 통해 서비스 계층으로 이동 합니다.
+            throw new CustomError(412, '중복된 닉네임입니다')
+        };
+
+        return nickName;
     };
 };

@@ -1,21 +1,31 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import indexRouter from "./routes/index.js";
+import dotenv from "dotenv";
+import cors from 'cors';
 
-// .env 설치 해야 배포할 때 문제가 안 생김.
+import indexRouter from "./routes/index.js";
+import errorHandler from './middlewares/error.middleware.js';
+
+dotenv.config()
 
 const app = express();
-const PORT = 3306;
+const PORT = process.env.PORT;
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors({
+  exposedHeaders: ['accessToken','refreshToken'],
+}));
+
 
 app.get("/", (req, res) => {
-  return res.json({ message: "환영 합니당!@." });
+  return res.json({ message: "환영 합니당!@@@@@." });
 });
 
 app.use("/api", [indexRouter]);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`${PORT}포트 연결!`);

@@ -9,4 +9,10 @@ export class SignInServ {
         return token
     }
 
+    refreshAccessToken = async (refreshToken) => {
+        const retoken = await this.signInRepository.refreshAccessToken(refreshToken)
+
+        return retoken
+    }
+
 }

@@ -11,11 +11,13 @@ datasource db {
 }
 
 model Users {
-  userId    Int      @id @default(autoincrement()) @map("userId")
-  email     String   @unique @map("email")
-  password  String   @map("password")
+  userId        Int      @id @default(autoincrement()) @map("userId")
+  email         String   @unique @map("email")
+  password      String   @map("password")
+  refreshToken  String?  @map("refreshToken")
+
   createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @updatedAt @map("updatedAt")
+  updatedAt DateTime @updatedAt      @map("updatedAt")
 
   UserInfos UserInfos? // 사용자(Users) 테이블과 사용자 정보(UserInfos) 테이블이 1:1 관계를 맺습니다.
   Posts     Posts[] // 사용자(Users) 테이블과 게시글(Posts) 테이블이 1:N 관계를 맺습니다.
@@ -26,13 +28,14 @@ model Users {
 
 model Posts {
   postId        Int       @id @default(autoincrement()) @map("postId")
-  receiverId    Int       @map("receiverId")
+  receiverId    Int?      @map("receiverId")
   WriterId      Int       @map("WriterId")
   content       String    @map("content") @db.Text
   relationship  String    @map("relationship")
+
   createdAt     DateTime  @default(now()) @map("createdAt")
-  updatedAt     DateTime  @updatedAt @map("updatedAt")
-  editCount     Int       @default(0) @map("editCount")
+  updatedAt     DateTime  @updatedAt      @map("updatedAt")
+  editCount     Int       @default(0)     @map("editCount")
 
   User Users @relation(fields: [WriterId], references: [userId], onDelete: Cascade)
 
@@ -43,8 +46,8 @@ model Posts {
 model UserInfos {
   userInfoId    Int      @id @default(autoincrement()) @map("userInfoId")
   UserId        Int      @unique @map("UserId")
-  nickname      String   @map("nickname") 
-  profileImage  String   @map("profileImage")
+  nickname      String   @unique @map("nickname")
+  profileImage  String?  @map("profileImage")
 
   createdAt     DateTime @default(now()) @map("createdAt")
   updatedAt     DateTime @updatedAt @map("updatedAt")
@@ -52,4 +55,3 @@ model UserInfos {
   User Users @relation(fields: [UserId], references: [userId], onDelete: Cascade)
 
   @@map("UserInfos")
-}
