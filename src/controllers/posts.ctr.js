@@ -17,22 +17,42 @@ export class PostsCtr {
       const { relationship, content } = req.body;
       // const { WriterId, nickname, password } = req.user;
 
+      //! 로그인 상태, 쿠키 상태 확인 (예외 처리)
+      if (!req.cookies || !req.user) {
+        return res
+          .status(403)
+          .json({ errorMessage: "로그인이 필요한 기능입니다." });
+      } else if (!userId) {
+        return res
+          .status(403)
+          .json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
+      }
+
       const createPost = await this.postsService.createPost(
         userId,
         // receiverId,
         relationship,
         content
-        // User : {
-        //   select: {
-        //     nickname,
-        //     password,
-        //   }
-        //   }
       );
+
+      //! 자신에게 쓰는글, 덕담 + 관계성 빈칸 확인 (예외 처리)
+      if (+userId === +receiverId) {
+        return res
+          .status(412)
+          .json({ errorMessage: "나에게 게시글을 작성할 수 없습니다." });
+      } else if (content.length === 0) {
+        return res
+          .status(412)
+          .json({ errorMessage: "덕담의 내용이 비어있습니다." });
+      } else if (relationship.length === 0) {
+        return res.status(412).json({ errorMessage: "관계성을 선택해주세요." });
+      }
 
       return res.status(200).json({ data: createPost });
     } catch (err) {
-      next(err);
+      return res
+        .status(400)
+        .json({ errorMessage: "게시글 작성에 실패했습니다." });
     }
   };
 
@@ -41,12 +61,22 @@ export class PostsCtr {
   getPostsWrittenToMe = async (req, res, next) => {
     try {
       const { receiverId } = req.params;
+      const { userId } = req.user;
 
       const posts = await this.postsService.findPostWrittenToMeById(receiverId);
 
+      //! 내가 받은 게시글인지 확인 (예외처리)
+      if (+userId !== +receiverId) {
+        return res
+          .status(412)
+          .json({ errorMessage: "내가 받은 덕담만 볼 수 있습니다." });
+      }
+
       return res.status(200).json({ data: posts });
     } catch (err) {
-      next(err);
+      return res
+        .status(400)
+        .json({ errorMessage: "게시글 조회에 실패했습니다. " });
     }
   };
 
@@ -67,19 +97,16 @@ export class PostsCtr {
   updatePost = async (req, res, next) => {
     try {
       const { postId } = req.params;
-      const { WriterId, password, relationship, content, receiverId } =
-        req.body;
-      // const { userId, password } = req.body;
-      const updatedData = req.body;
+      const { relationship, content } = req.body;
+      const { userId } = req.user;
+      const updatedpost = req.body;
 
       // 서비스 계층에 구현된 updatePost 로직을 실행합니다.
       const updatedPost = await this.postsService.updatePost(
         postId,
-        WriterId,
-        password,
+        userId,
         relationship,
-        content,
-        receiverId
+        content
       );
 
       return res.status(200).json({ data: updatedPost });
