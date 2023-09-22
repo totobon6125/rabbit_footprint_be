@@ -2,14 +2,13 @@ import { prisma } from "../utils/prisma/index.js";
 
 export class UsersRepo {
   // (1) 내 정보 등록 API (마이페이지)
-  createUserInfo = async (userInfoId, UserId, nickname, profileImage) => {
+  createUserInfo = async (userInfoId, userId, nickname, profileImage) => {
     const createdUserInfo = await prisma.userInfos.create({
       data: {
         userInfoId: +userInfoId,
-        UserId: +UserId,
+        UserId: +userId,
         nickname,
         profileImage,
-        // test,
       },
     });
     return createdUserInfo;
@@ -17,7 +16,7 @@ export class UsersRepo {
 
   // (2) 내 정보 조회 API (마이페이지)
   getUserInfo = async (userInfoId) => {
-    const userInfos = await prisma.userInfos.findFirst({
+    const getUserInfo = await prisma.userInfos.findFirst({
       where: { userInfoId: +userInfoId },
       select: {
         userInfoId: true,
@@ -28,6 +27,8 @@ export class UsersRepo {
         updatedAt: true,
       },
     });
+
+    return getUserInfo;
   };
 
   // (3) 내 정보 수정 API (마이페이지)

@@ -14,6 +14,9 @@ export class PostsServ {
     content
     // editCount
   ) => {
+
+
+
     const createdPost = await this.postsRepository.createPost(
       WriterId,
       receiverId,
