@@ -1,16 +1,20 @@
+import bcrypt from 'bcrypt';
+
 import { prisma } from '../utils/prisma/index.js'
 import { CustomError } from '../errors/customError.js'
 
-
 export class SignUpRepo {
-
-    //# 회원 가입
+    // 회원 가입
     signUp = async (email, password) => {
+        // 비밀번호 해싱
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // 회원 가입
         const signUp = await prisma.users.create({
             data: {
                 email,
-                password
-            }
+                password: hashedPassword,
+            },
         });
 
         return signUp;
