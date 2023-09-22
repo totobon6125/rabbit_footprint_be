@@ -13,7 +13,6 @@ datasource db {
 model Users {
   userId        Int      @id @default(autoincrement()) @map("userId")
   email         String   @unique @map("email")
-  nickname      String   @unique @map("nickname")
   password      String   @map("password")
   refreshToken  String?  @map("refreshToken")
 
@@ -47,6 +46,7 @@ model Posts {
 model UserInfos {
   userInfoId    Int      @id @default(autoincrement()) @map("userInfoId")
   UserId        Int      @unique @map("UserId")
+  nickname      String   @unique @map("nickname")
   profileImage  String?  @map("profileImage")
 
   createdAt     DateTime @default(now()) @map("createdAt")
