@@ -39,7 +39,15 @@ export class SignInRepo {
         // 리프레시 토큰을 사용자 데이터에 저장 합니다.
         await prisma.users.update({ where: { userId: user.userId }, data: { refreshToken } });
 
-        return { accessToken, refreshToken };
+                // userId 값을 같이 반환합니다.
+                const userId = await prisma.users.findMany({
+                    where: {email},
+                    select: {
+                        userId: true
+                    }
+                });
+
+        return { accessToken, refreshToken, userId };
     };
 
 };

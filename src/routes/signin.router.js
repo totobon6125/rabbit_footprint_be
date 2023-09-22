@@ -9,8 +9,9 @@ const signInController = new SignInCtr();
 //* 로그인 API
 router.post('/signin', signInController.signIn); 
 
-//* 로그아웃 API
-router.post('/signout', signInController.signOut); 
+// * 로그아웃 API
+// router.post('/signout', signInController.signOut); 
 
-router.get('/token', signInController.token); 
+// router.get('/token', signInController.token); 
+
 export default router;

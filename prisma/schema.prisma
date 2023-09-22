@@ -15,7 +15,7 @@ model Users {
   email         String   @unique @map("email")
   password      String   @map("password")
   refreshToken  String?  @map("refreshToken")
-
+  
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt      @map("updatedAt")
 
@@ -46,7 +46,7 @@ model Posts {
 model UserInfos {
   userInfoId    Int      @id @default(autoincrement()) @map("userInfoId")
   UserId        Int      @unique @map("UserId")
-  nickname      String   @unique @map("nickname") 
+  nickname      String   @unique @map("nickname")
   profileImage  String?  @map("profileImage")
 
   createdAt     DateTime @default(now()) @map("createdAt")
