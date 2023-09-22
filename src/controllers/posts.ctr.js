@@ -19,7 +19,7 @@ export class PostsCtr {
 
       const createPost = await this.postsService.createPost(
         userId,
-        // receiverId,
+        receiverId,
         relationship,
         content
         // User : {

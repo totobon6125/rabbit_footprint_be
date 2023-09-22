@@ -49,22 +49,21 @@ export class SignInRepo {
 
     //* refreshToken을 사용하여 accessToken을 재발급합니다.
     refreshAccessToken = async (refreshToken) => {
-        console.log("1번")
         console.log(refreshToken)
         try {
             //# refreshToken을 검증합니다.
             const decodedToken = jwt.verify(refreshToken, process.env.RF_KEY);
             const userId = decodedToken.userId;
-            console.log("2번")
+        
             //# 사용자 데이터베이스에서 refreshToken과 일치하는 사용자를 찾습니다.
             const user = await prisma.users.findUnique({
                 where: { userId },
             });
-            console.log("3번")
+        
             if (!user || user.refreshToken !== refreshToken) {
                 throw new CustomError(401, '유효하지 않은 refreshToken');
             }
-            console.log("4번")
+        
             //# 새로운 accessToken을 발급합니다.
             const newAccessToken = jwt.sign({ userId }, process.env.AC_KEY, {
                 expiresIn: '1h'
