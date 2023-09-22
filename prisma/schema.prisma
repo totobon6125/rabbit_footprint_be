@@ -56,3 +56,17 @@ model UserInfos {
 
   @@map("UserInfos")
 }
+
+
+users.email
+users.password
+userInfos.nickname
+userInfos.profileImage
+
+
+(1) 회원가입
+이메일, 패스워드, 닉네임 받는다 
+
+(2) 데이터에 저장 
+이메일, 패스워드 -> users
+닉네임 -> userInfos
