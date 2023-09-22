@@ -4,7 +4,7 @@ import { prisma } from '../utils/prisma/index.js'
 
 export default async function (req, res, next) {
     try {    // 1. 클라이언트로 부터 **쿠키(Cookie)**를 전달받습니다.
-        const { accessToken, refreshToken } = req.cookies
+        const { token, refreshToken } = req.cookies
         // console.log("쿠키?", req.cookies)
         // console.log("헤더?", req.headers)
         console.log('accessToken', accessToken)
