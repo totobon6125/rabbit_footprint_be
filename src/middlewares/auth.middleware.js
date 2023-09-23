@@ -7,16 +7,16 @@ export default async function (req, res, next) {
         const cookies = req.cookies;
         const header = req.header;
         console.log("header:", req.headers)
-        console.log("cookies:", req.cookies)
-
+        console.log("cookies:", req.headers.authorization)
+        
         const accessToken = cookies.accessToken;
-        const refreshToken = cookies.refreshToken;
+        const refreshToken = req.headers.authorization;
 
         console.log("at:", accessToken)
         console.log("rt:", refreshToken)
 
         // 2. 서버에서 발급한 JWT가 맞는지 검증합니다.
-        const decodedToken = jwt.verify(accessToken, process.env.AC_KEY); // refreshToken을 사용하여 JWT를 검증합니다.
+        const decodedToken = jwt.verify(refreshToken, process.env.RF_KEY); // refreshToken을 사용하여 JWT를 검증합니다.
         const userId = decodedToken.userId;
 
         // 3. JWT의 userId를 이용해 사용자를 조회합니다.
