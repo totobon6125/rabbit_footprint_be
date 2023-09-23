@@ -36,7 +36,8 @@ export default async function (req, res, next) {
         // 5. 다음 미들웨어를 실행합니다.
         next();
     } catch (error) {
-
+        console.log("인증 에러 캐치 부분:", error)
+        
         res.clearCookie('accessToken');
         res.clearCookie('refreshToken');
 

@@ -54,6 +54,7 @@ export class PostsServ {
         postId: post.postId,
         WriterId: post.WriterId,
         receiverId: post.receiverId,
+        relationship: post.relationship,
         nickname: post.nickname,
         content: post.content,
         createdAt: post.createdAt,

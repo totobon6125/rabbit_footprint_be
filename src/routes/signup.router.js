@@ -7,6 +7,6 @@ const router = express.Router();
 const signUpController = new SignUpCtr(); 
 
 //* 회원가입 API
-router.post('/signUp', signUpController.signUp); 
+router.post('/signup', signUpController.signUp); 
 
 export default router;

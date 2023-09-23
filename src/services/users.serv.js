@@ -4,18 +4,16 @@ export class UsersServ {
   usersRepository = new UsersRepo();
 
   // (1) 내 정보 등록 API
-  createUserInfo = async (userInfoId, userId, nickname, profileImage) => {
+  createUserInfo = async (userInfoId, userId, profileImage) => {
     const createdUserInfo = await this.usersRepository.createUserInfo(
       userInfoId,
       userId,
-      nickname,
       profileImage
     );
 
     return {
       userInfoId: createdUserInfo.userInfoId,
       UserId: createdUserInfo.UserId,
-      nickname: createdUserInfo.nickname,
       profileImage: createdUserInfo.profileImage,
       createdAt: createdUserInfo.createdAt,
       updatedAt: createdUserInfo.updatedAt,

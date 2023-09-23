@@ -30,26 +30,28 @@ export class SignUpRepo {
     
     //! 회원가입 email 중복확인
     findUserByEmail = async (email) => {
-        const eMail = await prisma.users.findUnique({
+        const user = await prisma.users.findUnique({
             where: { email }
         });
-        if (eMail) { // 이 에러는 return으로 빠지는 것이 아닌 throw 를 통해 서비스 계층으로 이동 합니다.
+
+        if (user) { // 이 에러는 return으로 빠지는 것이 아닌 throw 를 통해 서비스 계층으로 이동 합니다.
             throw new CustomError(412, '중복된 email 입니다')
         };
-
-        return eMail;
+        
+        return user;
     };
 
 
     //! 회원가입 nickname 중복확인
     findUserByNickName = async (nickname) => {
-        const nickName = await prisma.UserInfos.findUnique({
+        console.log("nickname:  ",nickname)
+        const userInfo = await prisma.UserInfos.findUnique({
             where: { nickname }
         });
-        if (nickName) { // 이 에러는 return으로 빠지는 것이 아닌 throw 를 통해 서비스 계층으로 이동 합니다.
+        if (userInfo) { // 이 에러는 return으로 빠지는 것이 아닌 throw 를 통해 서비스 계층으로 이동 합니다.
             throw new CustomError(412, '중복된 닉네임입니다')
         };
 
-        return nickName;
+        return userInfo;
     };
 };

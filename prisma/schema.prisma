@@ -55,3 +55,4 @@ model UserInfos {
   User Users @relation(fields: [UserId], references: [userId], onDelete: Cascade)
 
   @@map("UserInfos")
+}

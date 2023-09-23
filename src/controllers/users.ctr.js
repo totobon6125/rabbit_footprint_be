@@ -8,7 +8,7 @@ export class UsersCtr {
     try {
       const { userInfoId } = req.params;
       const { userId } = req.user;
-      const { nickname, profileImage } = req.body;
+      const { profileImage } = req.body;
 
       //! 로그인 상태, 쿠키 상태 확인, 내 마이페이지 화면인지 확인 (예외 처리)
       if (!req.cookies || !req.user) {
@@ -28,7 +28,6 @@ export class UsersCtr {
       const createUserInfo = await this.usersService.createUserInfo(
         userInfoId,
         userId,
-        nickname,
         profileImage
       );
       return res.status(200).json({ data: createUserInfo });

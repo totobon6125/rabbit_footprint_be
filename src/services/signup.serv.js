@@ -21,11 +21,11 @@ export class SignUpServ {
         return user;
     };
 
-
+    //! 회원가입 nickname 중복확인
     findUserByNickName = async (nickname) => {
-        const user = await this.signUpRepository.findUserByNickName(nickname)
+        const userInfo = await this.signUpRepository.findUserByNickName(nickname)
 
-        return user;
+        return userInfo;
     };
 
 }

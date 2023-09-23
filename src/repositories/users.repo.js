@@ -2,12 +2,11 @@ import { prisma } from "../utils/prisma/index.js";
 
 export class UsersRepo {
   // (1) 내 정보 등록 API (마이페이지)
-  createUserInfo = async (userInfoId, userId, nickname, profileImage) => {
+  createUserInfo = async (userInfoId, userId, profileImage) => {
     const createdUserInfo = await prisma.userInfos.create({
       data: {
         userInfoId: +userInfoId,
         UserId: +userId,
-        nickname,
         profileImage,
       },
     });
