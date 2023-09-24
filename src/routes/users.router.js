@@ -23,4 +23,7 @@ router.put(
   usersController.updateUserInfo
 );
 
+// (4) 랜덤으로 다른 유저에게 보내기 API
+router.get('/random', authMiddleware, usersController.getRandomUser);
+
 export default router;

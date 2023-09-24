@@ -1,24 +1,24 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import cors from 'cors';
+import cors from "cors";
 
 import indexRouter from "./routes/index.js";
-import errorHandler from './middlewares/error.middleware.js';
+import errorHandler from "./middlewares/error.middleware.js";
 
-dotenv.config()
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
-
+const PORT = 3306;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors({
-  exposedHeaders: ['accessToken','refreshToken'],
-}));
-
+app.use(
+  cors({
+    exposedHeaders: ["accessToken", "refreshToken"],
+  })
+);
 
 app.get("/", (req, res) => {
   return res.json({ message: "환영 합니당!@@@@@." });

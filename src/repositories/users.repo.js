@@ -31,4 +31,21 @@ export class UsersRepo {
   };
 
   // (3) 내 정보 수정 API (마이페이지)
+
+  // (4) 랜덤 유저 보내기 API (메인페이지)
+  getRandomUser = async (userId) => {
+    const getRandomUser = await prisma.users.count({
+      where: {
+        NOT: {userId:+userId}
+      }
+    });
+    const skip = Math.floor(Math.random() * getRandomUser);
+    return await prisma.users.findFirst({
+      take: 1,
+      skip: skip,
+      where : {
+        NOT : {userId:+userId}
+      }
+    });
+  };
 }

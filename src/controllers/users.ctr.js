@@ -67,4 +67,16 @@ export class UsersCtr {
       next(err);
     }
   };
+
+  // (4) 랜덤 유저 보내기 API (메인페이지)
+  getRandomUser = async (req, res, next) => {
+    try {
+      const {userId} = req.user;
+      const getRandomUser = await this.usersService.getRandomUser(userId);
+
+      return res.status(200).json({ data: getRandomUser });
+    } catch (err) {
+      next(err);
+    }
+  };
 }

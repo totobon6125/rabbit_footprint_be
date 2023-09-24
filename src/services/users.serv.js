@@ -33,4 +33,13 @@ export class UsersServ {
       updateAt: getUserInfo.updatedAt,
     };
   };
+
+  // (4) 랜덤 유저 보내기 API (메인페이지)
+  getRandomUser = async (userId) => {
+    const getRandomUser = await this.usersRepository.getRandomUser(userId);
+
+    return {
+      userId: getRandomUser.userId,
+    };
+  };
 }
