@@ -28,11 +28,6 @@ export class PostsRepo {
         content: true,
         createdAt: true,
         updatedAt: true,
-        // User: {
-        //   select: {
-        //     nickname: true,
-        //   },
-        // },
       },
     });
 
@@ -64,6 +59,7 @@ export class PostsRepo {
         postId: +postId,
       },
       data: {
+        postId,
         relationship,
         content,
         receiverId,

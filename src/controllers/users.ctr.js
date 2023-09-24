@@ -62,6 +62,16 @@ export class UsersCtr {
     try {
       const {userInfoId} = req.params;
       const {userId} = req.user;
+      const {nickname, profileImage} = req.body;
+
+      const updatedUserInfo = await this.usersService.updateUserInfo(
+        userInfoId,
+        userId,
+        nickname,
+        profileImage
+      )
+
+        return res.status(200).json({data : updatedUserInfo})
 
     } catch (err) {
       next(err);
