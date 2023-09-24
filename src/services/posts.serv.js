@@ -14,9 +14,6 @@ export class PostsServ {
     content
     // editCount
   ) => {
-
-
-
     const createdPost = await this.postsRepository.createPost(
       WriterId,
       receiverId,
@@ -89,11 +86,13 @@ export class PostsServ {
   updatePost = async (postId, WriterId, relationship, content, receiverId) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const postInfo = await this.postsRepository.findPostById(postId);
+    // ! 게시글 수정과 관련된 에러 처리
     if (!postInfo) throw new Error("존재하지 않는 게시글입니다.");
     if (postInfo.WriterId !== WriterId)
       throw new Error("게시글을 수정할 권한이 없습니다");
     if (postInfo.editCount >= 1)
       throw new Error("게시글은 한 번만 수정이 가능합니다.");
+    const receiverId = postInfo.receiverId;
 
     // 저장소(Repository)에게 데이터 수정을 요청합니다.
     await this.postsRepository.updatePost(
@@ -102,7 +101,7 @@ export class PostsServ {
       relationship,
       content,
       receiverId,
-      editCount
+      // editCount
     );
 
     // 변경된 데이터를 조회합니다.

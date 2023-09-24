@@ -99,14 +99,13 @@ export class PostsCtr {
       const { postId } = req.params;
       const { relationship, content } = req.body;
       const { userId } = req.user;
-      const updatedpost = req.body;
 
       // 서비스 계층에 구현된 updatePost 로직을 실행합니다.
       const updatedPost = await this.postsService.updatePost(
         postId,
         userId,
         relationship,
-        content
+        content,
       );
 
       return res.status(200).json({ data: updatedPost });
