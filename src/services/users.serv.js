@@ -68,6 +68,7 @@ export class UsersServ {
 
     return {
       userId: getRandomUser.userId,
+      nickname: getRandomUser.UserInfos.nickname,
     };
   };
 }

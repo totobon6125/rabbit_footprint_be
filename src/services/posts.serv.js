@@ -10,6 +10,7 @@ export class PostsServ {
   createPost = async (
     WriterId,
     receiverId,
+    nickname,
     relationship,
     content
     // editCount
@@ -17,6 +18,7 @@ export class PostsServ {
     const createdPost = await this.postsRepository.createPost(
       WriterId,
       receiverId,
+      nickname,
       relationship,
       content
       // editCount
@@ -24,7 +26,7 @@ export class PostsServ {
 
     return {
       postId: createdPost.postId,
-      // nickname: createdPost.nickname,
+      nickname: createdPost.nickname,
       WriterId: createdPost.WriterId,
       relationship: createdPost.relationship,
       content: createdPost.content,
@@ -52,7 +54,7 @@ export class PostsServ {
         WriterId: post.WriterId,
         receiverId: post.receiverId,
         relationship: post.relationship,
-        nickname: post.nickname,
+        // nickname: post.UserInfos.nickname,
         content: post.content,
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
@@ -117,5 +119,23 @@ export class PostsServ {
       createdAt: updatedPost.createdAt,
       updatedAt: updatedPost.updatedAt,
     };
+  };
+
+  // (5) 전체 게시글 조회 API
+  findAllPosts = async (receiverId) => {
+    const posts = await this.postsRepository.findAllPosts(receiverId);
+
+    posts.sort((a, b) => {
+      return b.createdAt - a.createdAt;
+    });
+
+    return posts.map((post) => {
+      return {
+        postId: post.postId,
+        receiverId: post.receiverId,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+      };
+    });
   };
 }
