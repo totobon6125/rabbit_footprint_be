@@ -19,7 +19,7 @@ export class CheckNickNameCtr {
             const nick = await this.checkNickNameService.checkNickName(nickname);
 
             if (nick) {
-                return res.status(201).json({ message: '중복된 닉네임 입니다.' })
+                return res.status(222).json({ message: '중복된 닉네임 입니다.' })
             }else {
                 return res.status(200).json({ message: '사용 가능한 닉네임 입니다.' })
             } 

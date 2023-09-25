@@ -16,7 +16,7 @@ export class CheckEmailCtr {
             const mail = await this.checkService.checkEmail(email);
 
             if (mail) {
-                return res.status(201).json({ message: '중복된 email 입니다.' })
+                return res.status(222).json({ message: '중복된 email 입니다.' })
             }else {
                 return res.status(200).json({ message: '사용 가능한 email 입니다.' })
             } 
