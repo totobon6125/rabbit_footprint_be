@@ -6,7 +6,7 @@ export class CheckNickNameCtr {
     //# nickname 중복 확인
     checkNickName = async (req, res, next) => {
         try {
-            const { nickname } = req.body;
+            const { nickname } = req.query;
             console.log(nickname)
 
             //!nickname 형태 확인은 덤
