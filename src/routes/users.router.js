@@ -13,8 +13,7 @@ router.post("/mypage/:userInfoId", authMiddleware, usersController.createUserInf
 router.get("/mypage", authMiddleware, usersController.getUserInfo);
 
 // (3) 내 정보 수정 API
-router.put(
-  "/mypage/:userInfoId", authMiddleware, usersController.updateUserInfo);
+router.put("/mypage/:userInfoId", authMiddleware, usersController.updateUserInfo);
 
 // (4) 랜덤으로 다른 유저에게 보내기 API
 router.get("/random", authMiddleware, usersController.getRandomUser);

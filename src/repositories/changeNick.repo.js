@@ -3,10 +3,11 @@ import { CustomError } from '../errors/customError.js';
 
 export class ChangeNickRepo {
     // 닉네임 수정하기
-    changeNick = async (userId, newNickname) => {
+    changeNick = async (UserId, newNickname) => {
         // userId로 해당하는 사용자 정보 찾기
+        console.log("RP> userId: ", UserId)
         const userInfo = await prisma.userInfos.findUnique({
-            where: { userId },
+            where: { UserId },
         });
 
         if (!userInfo) {
@@ -16,7 +17,7 @@ export class ChangeNickRepo {
 
         // 닉네임을 업데이트하고 업데이트된 사용자 정보를 반환
         const updatedUserInfo = await prisma.userInfos.update({
-            where: { userId },
+            where: { UserId },
             data: {
                 nickname: newNickname,
             },

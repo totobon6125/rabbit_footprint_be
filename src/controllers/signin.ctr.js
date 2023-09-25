@@ -11,7 +11,8 @@ export class SignInCtr {
             const token = await this.signInService.signIn(email, password);
 
             //? cookie 매서드가 아닌 header 매서드를 사용해야 FE가 res.header 에서 받아서 사용할 수 있다.
-            res.cookie('accessToken', `${token.accessToken}`)
+            res.cookie('accessToken', `${token.accessToken}`);
+            res.header('refreshToken', `${token.refreshToken}`);
             res.header('accessToken', `${token.accessToken}`);
             res.header('refreshToken', `${token.refreshToken}`);
 
