@@ -6,7 +6,8 @@ export class CheckNickNameCtr {
     //# nickname 중복 확인
     checkNickName = async (req, res, next) => {
         try {
-            const { nickname } = req.query;
+            const { nickname } = req.body;
+            console.log(nickname)
 
             //!nickname 형태 확인은 덤
             const nicknameRegex = /^[a-zA-Z0-9가-힣._%+-]{1,5}$/;
@@ -14,10 +15,15 @@ export class CheckNickNameCtr {
                 return res.status(400).json({ errorMessage: 'nickname 조건에 맞지 않습니다.' });
             }
 
-            //! email 중복확인
-            await this.checkNickNameService.checkNickName(nickname);
+            //! nickname 중복확인
+            const nick = await this.checkNickNameService.checkNickName(nickname);
 
-            return res.status(201).json({ message: '사용가능한 nickname 입니다.' });
+            if (nick) {
+                return res.status(201).json({ message: '중복된 닉네임 입니다.' })
+            }else {
+                return res.status(200).json({ message: '사용 가능한 닉네임 입니다.' })
+            } 
+
 
         } catch (err) {
             next(err);

@@ -7,11 +7,11 @@ export class CheckNickNameRepo {
         const userInfo = await prisma.userInfos.findUnique({
             where: { nickname }
         });
-
+        
         if (userInfo) {
-            throw new CustomError(401, '중복된 nickname 입니다')
+            return true
         };
 
-        return userInfo;
+        return false;
     };
 };

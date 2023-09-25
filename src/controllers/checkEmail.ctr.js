@@ -13,9 +13,14 @@ export class CheckEmailCtr {
             if (!emailRegex.test(email)) { return res.status(400).json({ errorMessage: 'email 조건에 맞지 않습니다.' }) }
 
             //! email 중복확인
-            await this.checkService.checkEmail(email);
+            const mail = await this.checkService.checkEmail(email);
 
-            return res.status(201).json({ message: '사용가능한 email 입니다.' });
+            if (mail) {
+                return res.status(201).json({ message: '중복된 email 입니다.' })
+            }else {
+                return res.status(200).json({ message: '사용 가능한 email 입니다.' })
+            } 
+
 
         } catch (err) {
             next(err);
