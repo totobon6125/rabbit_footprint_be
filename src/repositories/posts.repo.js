@@ -7,17 +7,19 @@ export class PostsRepo {
   createPost = async (
     WriterId,
     receiverId,
-    nickname,
+    // nickname,
     relationship,
-    content
+    content,
+    editCount
   ) => {
     const createdPost = await prisma.posts.create({
       data: {
         WriterId: +WriterId,
         receiverId: +receiverId,
-        nickname,
+        // nickname,
         relationship,
         content,
+        editCount,
       },
     });
     return createdPost;
@@ -31,25 +33,27 @@ export class PostsRepo {
         postId: true,
         WriterId: true,
         receiverId: true,
-        // User: {
-        //   // 먼저 User 관계를 포함합니다.
-        //   select: {
-        //     UserInfos: {
-        //       // 그 다음 UserInfos의 정보를 가져옵니다.
-        //       select: {
-        //         nickname: true,
-        //       },
-        //     },
-        //   },
-        // },
         relationship: true,
         content: true,
         createdAt: true,
         updatedAt: true,
+        User: {
+          select: {
+            userId: true,
+            UserInfos: {
+              select: {
+                nickname: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    return posts;
+    return posts.map((post) => ({
+      ...post,
+      nickname: post.User?.UserInfos?.nickname,
+    }));
   };
 
   // (3) 내가 쓴 게시글 조회 API
@@ -95,10 +99,24 @@ export class PostsRepo {
       select: {
         postId: true,
         receiverId: true,
+        WriterId: true,
         createdAt: true,
         updatedAt: true,
+        User: {
+          select: {
+            userId: true,
+            UserInfos: {
+              select: {
+                nickname: true,
+              },
+            },
+          },
+        },
       },
     });
-    return posts;
+    return posts.map((post) => ({
+      ...post,
+      nickname: post.User?.UserInfos?.nickname,
+    }));
   };
 }

@@ -10,18 +10,17 @@ export class PostsServ {
   createPost = async (
     WriterId,
     receiverId,
-    nickname,
     relationship,
-    content
-    // editCount
+    content,
+    editCount
   ) => {
+    // const getnickname = await this.usersRepository.getNicknameByUserId(WriterId);
     const createdPost = await this.postsRepository.createPost(
       WriterId,
       receiverId,
-      nickname,
       relationship,
-      content
-      // editCount
+      content,
+      editCount
     );
 
     return {
@@ -31,7 +30,7 @@ export class PostsServ {
       relationship: createdPost.relationship,
       content: createdPost.content,
       receiverId: createdPost.receiverId,
-      // editCout: createdPost.editCount,
+      editCout: createdPost.editCount,
       createdAt: createdPost.createdAt,
       updatedAt: createdPost.updatedAt,
     };
@@ -54,7 +53,7 @@ export class PostsServ {
         WriterId: post.WriterId,
         receiverId: post.receiverId,
         relationship: post.relationship,
-        // nickname: post.UserInfos.nickname,
+        nickname: post.nickname,
         content: post.content,
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
@@ -133,6 +132,8 @@ export class PostsServ {
       return {
         postId: post.postId,
         receiverId: post.receiverId,
+        WriterId: post.WriterId,
+        nickname: post.nickname,
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
       };
