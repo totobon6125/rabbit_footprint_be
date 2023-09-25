@@ -12,7 +12,7 @@ export class PostsCtr {
   // 클라이언트에게 전달받는 데이터 있음
   createPost = async (req, res, next) => {
     try {
-      const { userId, nickname } = req.user; // 작성자
+      const { userId } = req.user; // 작성자
       const { receiverId } = req.params; // 받는자
       const { relationship, content } = req.body;
       // const { WriterId, nickname, password } = req.user;
@@ -31,7 +31,7 @@ export class PostsCtr {
       const createPost = await this.postsService.createPost(
         userId,
         receiverId,
-        nickname,
+
         relationship,
         content
       );
