@@ -6,7 +6,7 @@ export class CheckNickNameCtr {
     //# nickname 중복 확인
     checkNickName = async (req, res, next) => {
         try {
-            const { nickname } = req.body;
+            const { nickname } = req.query;
 
             //!nickname 형태 확인은 덤
             const nicknameRegex = /^[a-zA-Z0-9가-힣._%+-]{1,5}$/;
