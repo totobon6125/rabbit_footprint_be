@@ -22,17 +22,19 @@ export class UsersServ {
   };
 
   // (2) 내 정보 조회 API
-  getUserInfo = async (userInfoId) => {
-    const getUserInfo = await this.usersRepository.getUserInfo(userInfoId);
+  findMyUserInfo = async (userId) => {
+    const userInfos = await this.usersRepository.findMyUserInfo(userId);
 
+    // return userInfos.map((userInfos) => {
     return {
-      userInfoId: getUserInfo.userInfoId,
-      nickname: getUserInfo.nickname,
-      UserId: getUserInfo.UserId,
-      profileImage: getUserInfo.profileImage,
-      createAt: getUserInfo.createAt,
-      updateAt: getUserInfo.updatedAt,
+      userInfoId: userInfos.userInfoId,
+      nickname: userInfos.nickname,
+      userId: userInfos.UserId,
+      profileImage: userInfos.profileImage,
+      createdAt: userInfos.createdAt,
+      updatedAt: userInfos.updatedAt,
     };
+    // });
   };
 
   // (3) 내 정보 수정 API

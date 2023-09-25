@@ -8,15 +8,16 @@ export class UsersRepo {
         userInfoId: +userInfoId,
         UserId: +userId,
         profileImage,
+        nickname,
       },
     });
     return createdUserInfo;
   };
 
   // (2) 내 정보 조회 API (마이페이지)
-  getUserInfo = async (userInfoId) => {
-    const getUserInfo = await prisma.userInfos.findFirst({
-      where: { userInfoId: +userInfoId },
+  findMyUserInfo = async (userId) => {
+    const userInfos = await prisma.userInfos.findFirst({
+      where: { UserId: +userId },
       select: {
         userInfoId: true,
         UserId: true,
@@ -27,7 +28,7 @@ export class UsersRepo {
       },
     });
 
-    return getUserInfo;
+    return userInfos;
   };
 
   // (3) 내 정보 수정 API (마이페이지)

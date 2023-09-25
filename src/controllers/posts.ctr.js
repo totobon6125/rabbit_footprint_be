@@ -31,6 +31,7 @@ export class PostsCtr {
       const createPost = await this.postsService.createPost(
         userId,
         receiverId,
+        // nickname,
         relationship,
         content
       );
@@ -79,6 +80,7 @@ export class PostsCtr {
         .json({ errorMessage: "게시글 조회에 실패했습니다. " });
     }
   };
+  // (3) 전체 게시글 보기 API
 
   // (3) 내가 쓴 게시글 조회 API
   getPostsIWrote = async (req, res, next) => {
@@ -105,7 +107,7 @@ export class PostsCtr {
         postId,
         userId,
         relationship,
-        content,
+        content
       );
 
       return res.status(200).json({ data: updatedPost });

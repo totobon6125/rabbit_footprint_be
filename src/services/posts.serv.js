@@ -101,7 +101,7 @@ export class PostsServ {
       relationship,
       content,
       receiverId,
-      // editCount
+      editCount
     );
 
     // 변경된 데이터를 조회합니다.
@@ -110,7 +110,7 @@ export class PostsServ {
     return {
       postId: updatedPost.postId,
       WriterId: updatedPost.WriterId,
-      // nickname: updatedPost.nickname,
+      nickname: updatedPost.nickname,
       relationship: updatedPost.relationship,
       content: updatedPost.content,
       receiverId: updatedPost.receiverId,
