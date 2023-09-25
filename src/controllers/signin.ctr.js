@@ -15,7 +15,7 @@ export class SignInCtr {
             res.header('accessToken', `${token.accessToken}`);
             res.header('refreshToken', `${token.refreshToken}`);
 
-            return res.status(200).json({ Message: "로그인 성공", data: token.userId });
+            return res.status(200).json({ Message: "로그인 성공", data: token });
         } catch (err) {
             next(err)
         }
