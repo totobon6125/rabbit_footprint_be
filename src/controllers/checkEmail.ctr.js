@@ -6,7 +6,7 @@ export class CheckEmailCtr {
     //# email 중복 확인
     checkEmail = async (req, res, next) => {
         try {
-            const { email } = req.body;
+            const { email } = req.query;
             
             //!email 형태 확인
             const emailRegex = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/);
