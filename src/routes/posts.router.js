@@ -12,11 +12,7 @@ const postsController = new PostsCtr(); // PostsController 를 인스턴스화 �
 router.post("/posts/:receiverId", authMiddleware, postsController.createPost); // 요청이 들어오면 해당하는 컨트롤러로 요청을 전달함.
 
 // (2) 내가 받은 게시글 조회 API
-router.get(
-  "/receive/:receiverId",
-  authMiddleware,
-  postsController.getPostsWrittenToMe
-);
+router.get("/receive/:receiverId", authMiddleware, postsController.getPostsWrittenToMe);
 
 // (3) 내가 쓴 게시글 조회 API
 router.get("/posts/:WriterId", authMiddleware, postsController.getPostsIWrote);
