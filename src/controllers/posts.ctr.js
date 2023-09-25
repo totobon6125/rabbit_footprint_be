@@ -12,7 +12,7 @@ export class PostsCtr {
   // 클라이언트에게 전달받는 데이터 있음
   createPost = async (req, res, next) => {
     try {
-      const { userId } = req.user; // 작성자
+      const { userId, nickname } = req.user; // 작성자
       const { receiverId } = req.params; // 받는자
       const { relationship, content } = req.body;
       // const { WriterId, nickname, password } = req.user;
@@ -31,7 +31,7 @@ export class PostsCtr {
       const createPost = await this.postsService.createPost(
         userId,
         receiverId,
-        // nickname,
+        nickname,
         relationship,
         content
       );
@@ -80,7 +80,6 @@ export class PostsCtr {
         .json({ errorMessage: "게시글 조회에 실패했습니다. " });
     }
   };
-  // (3) 전체 게시글 보기 API
 
   // (3) 내가 쓴 게시글 조회 API
   getPostsIWrote = async (req, res, next) => {
@@ -111,6 +110,19 @@ export class PostsCtr {
       );
 
       return res.status(200).json({ data: updatedPost });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // (5) 전체 게시글 조회 API
+  getAllPosts = async (req, res, next) => {
+    try {
+      const { receiverId } = req.params;
+
+      const posts = await this.postsService.findAllPosts(receiverId);
+
+      return res.status(200).json({ data: posts });
     } catch (err) {
       next(err);
     }
