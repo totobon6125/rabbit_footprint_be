@@ -28,11 +28,6 @@ export class PostsRepo {
         content: true,
         createdAt: true,
         updatedAt: true,
-        // User: {
-        //   select: {
-        //     nickname: true,
-        //   },
-        // },
       },
     });
 
@@ -59,12 +54,12 @@ export class PostsRepo {
 
   // (4) 게시글 수정 API
   updatePost = async (postId, relationship, content, receiverId) => {
-    // ORM인 Prisma에서 Posts 모델의 update 메서드를 사용해 데이터를 수정합니다.
     const updatedPost = await prisma.posts.update({
       where: {
         postId: +postId,
       },
       data: {
+        postId,
         relationship,
         content,
         receiverId,
