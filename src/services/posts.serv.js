@@ -132,6 +132,8 @@ export class PostsServ {
       return {
         postId: post.postId,
         receiverId: post.receiverId,
+        WriterId: post.WriterId,
+        nickname: post.nickname,
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
       };

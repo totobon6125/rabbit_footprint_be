@@ -15,7 +15,6 @@ export class PostsCtr {
       const { userId } = req.user; // 작성자
       const { receiverId } = req.params; // 받는자
       const { relationship, content } = req.body;
-      // const { WriterId, nickname, password } = req.user;
 
       //! 로그인 상태, 쿠키 상태 확인 (예외 처리)
       if (!req.cookies || !req.user) {
@@ -27,14 +26,6 @@ export class PostsCtr {
           .status(403)
           .json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
       }
-
-      const createPost = await this.postsService.createPost(
-        userId,
-        receiverId,
-
-        relationship,
-        content
-      );
 
       //! 자신에게 쓰는글, 덕담 + 관계성 빈칸 확인 (예외 처리)
       if (+userId === +receiverId) {
@@ -48,6 +39,13 @@ export class PostsCtr {
       } else if (relationship.length === 0) {
         return res.status(412).json({ errorMessage: "관계성을 선택해주세요." });
       }
+      const createPost = await this.postsService.createPost(
+        userId,
+        receiverId,
+
+        relationship,
+        content
+      );
 
       return res.status(200).json({ data: createPost });
     } catch (err) {

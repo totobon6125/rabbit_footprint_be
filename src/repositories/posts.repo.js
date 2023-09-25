@@ -99,10 +99,24 @@ export class PostsRepo {
       select: {
         postId: true,
         receiverId: true,
+        WriterId: true,
         createdAt: true,
         updatedAt: true,
+        User: {
+          select: {
+            userId: true,
+            UserInfos: {
+              select: {
+                nickname: true,
+              },
+            },
+          },
+        },
       },
     });
-    return posts;
+    return posts.map((post) => ({
+      ...post,
+      nickname: post.User?.UserInfos?.nickname,
+    }));
   };
 }
