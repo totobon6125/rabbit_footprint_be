@@ -17,6 +17,6 @@ router.get('/Email', checkEmailController.checkEmail);
 router.get('/NickName', checkNickNameController.checkNickName); 
 
 //* 닉네임 수정 
-router.put('/mypage/:userInfoId', authMiddleware, changeNickController.changeNick); 
+router.put('/NewNick', authMiddleware, changeNickController.changeNick); 
 
 export default router;

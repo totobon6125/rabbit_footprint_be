@@ -19,8 +19,6 @@ export class SignUpCtr {
             await this.signUpService.findUserByEmail(email);
             // 레포지토리에서 출발한 error 는 try-catch 를 통해 catch(err) 로 잡혀 갑니다.
 
-
-
             //! 비밀번호 확인
             const passwordRegex = new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9]).{4,}$/i);
             if (password.includes(email)) { return res.status(412).json({ errorMessage: '패스워드에 email이 포함되어 있습니다.' }) };

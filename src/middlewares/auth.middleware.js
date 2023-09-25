@@ -7,13 +7,15 @@ export default async function (req, res, next) {
     const cookies = req.cookies;
     const header = req.header;
     console.log("header:", req.headers);
-    console.log("cookies:", req.headers.authorization);
+    console.log("header 안의 authorization", req.headers.authorization);
+    console.log("쿠키안에 AT가 있네요?", cookies)
 
     const accessToken = req.headers.authorization;
     const refreshToken = req.headers.authorization;
-
+    const accessToken1 = cookies.accessToken;
     console.log("at:", accessToken);
     console.log("rt:", refreshToken);
+    // console.log("at1:", accessToken1)
 
     // 2. 서버에서 발급한 JWT가 맞는지 검증합니다.
     const decodedToken = jwt.verify(accessToken, process.env.AC_KEY);

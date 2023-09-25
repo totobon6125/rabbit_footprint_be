@@ -6,14 +6,11 @@ export class ChangeNickCtr {
     //# 닉네임 수정
     changeNick = async (req, res, next) => {
         try {
-            const { newNickname } = req.body;
-            const { UserId } = req.user;
-
-            console.log("CT> req.user: ", req.user)
-            console.log("CT> userId: ", UserId)
-            
+            const { nickname } = req.body;
+            const { userId } = req.user;
+            console.log(nickname)
             //! 닉네임 수정
-            await this.changeNickService.changeNick(UserId, newNickname);
+            await this.changeNickService.changeNick(userId, nickname);
 
             return res.status(201).json({ message: '닉네임이 변경되었습니다.' });
 
