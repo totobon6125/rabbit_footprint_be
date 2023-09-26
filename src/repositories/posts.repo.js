@@ -138,7 +138,6 @@ export class PostsRepo {
 
     const mappedNicks = {
       ...nicks,
-      nickname: nicks?.User?.UserInfos?.nickname,
     };
 
     return {
