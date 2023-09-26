@@ -122,14 +122,18 @@ export class PostsServ {
 
   // (5) 전체 게시글 조회 API
   findAllPosts = async (receiverId) => {
+<<<<<<< HEAD
     const posts = await this.postsRepository.findAllPosts(receiverId);
     const user = await this.
+=======
+    const results = await this.postsRepository.findAllPosts(receiverId);
+>>>>>>> 95582b2ac7e062347c685f84fd77158fe876dbad
 
-    posts.sort((a, b) => {
+    results.posts.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
 
-    return posts.map((post) => {
+    const mappedPosts = results.posts.map((post) => {
       return {
         postId: post.postId,
         receiverId: post.receiverId,
@@ -139,6 +143,11 @@ export class PostsServ {
         updatedAt: post.updatedAt,
       };
     });
+
+    return {
+      posts: mappedPosts,
+      nicks: results.nicks,
+    };
   };
 }
 

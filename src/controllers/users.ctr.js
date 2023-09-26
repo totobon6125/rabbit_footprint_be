@@ -92,6 +92,7 @@ export class UsersCtr {
     }
   };
 
+<<<<<<< HEAD
     // (5) get nickname API (메인페이지)
     getRandomUser = async (req, res, next) => {
       try {
@@ -103,4 +104,7 @@ export class UsersCtr {
         next(err);
       }
     };
+=======
+  
+>>>>>>> 95582b2ac7e062347c685f84fd77158fe876dbad
 }
