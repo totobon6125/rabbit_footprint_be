@@ -3,7 +3,7 @@
 
 ## 조원
 |이름|역할|주특기|업무|블로그|깃허브|
-|------|---|---|---|---|---|
+|------|----|----|----|----|----|
 |손현원|팀장|BE(Node)|덕담 생성, 조회(상세, 부분), 수정 및 DB 랜덤값 추출 API 작성|[블로그](https://velog.io/@shwwwwwww)|[깃허브](https://github.com/mtmlabs)|
 |김대욱|팀원|BE(Node)|회원가입 및 로그인 API, HTTPS 배포 |[블로그](https://blog.naver.com/ackrima)|[깃허브](https://github.com/totobon6125)|
 |김연수|팀원|FE(React)|회원가입 및 로그인 API|[블로그](https://xeonxoo.tistory.com/)|[깃허브](https://github.com/Xeonxoo99)|
