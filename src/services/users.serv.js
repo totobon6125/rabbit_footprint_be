@@ -71,4 +71,14 @@ export class UsersServ {
       nickname: getRandomUser.UserInfos.nickname,
     };
   };
+
+    // (5) 닉네임 가져오는 API (메인페이지)
+    getNick = async (receiverId) => {
+      const nickname = await this.usersRepository.getNick(receiverId);
+  
+      return {
+        userId: getRandomUser.userId,
+        nickname: getRandomUser.UserInfos.nickname,
+      };
+    };
 }

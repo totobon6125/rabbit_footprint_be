@@ -91,4 +91,16 @@ export class UsersCtr {
       next(err);
     }
   };
+
+    // (5) get nickname API (메인페이지)
+    getRandomUser = async (req, res, next) => {
+      try {
+        const { receiverId } = req.params;
+        const nick = await this.usersService.getNick(receiverId);
+  
+        return res.status(200).json({ data: nick });
+      } catch (err) {
+        next(err);
+      }
+    };
 }

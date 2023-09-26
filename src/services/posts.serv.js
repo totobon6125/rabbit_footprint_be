@@ -123,6 +123,7 @@ export class PostsServ {
   // (5) 전체 게시글 조회 API
   findAllPosts = async (receiverId) => {
     const posts = await this.postsRepository.findAllPosts(receiverId);
+    const user = await this.
 
     posts.sort((a, b) => {
       return b.createdAt - a.createdAt;
@@ -140,3 +141,4 @@ export class PostsServ {
     });
   };
 }
+
