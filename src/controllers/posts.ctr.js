@@ -117,10 +117,8 @@ export class PostsCtr {
   getAllPosts = async (req, res, next) => {
     try {
       const { receiverId } = req.params;
-
-      const posts = await this.postsService.findAllPosts(receiverId);
-
-      return res.status(200).json({ data: posts });
+      const { posts, nicks } = await this.postsService.findAllPosts(receiverId);
+      return res.status(200).json({ data: posts, nicks });
     } catch (err) {
       next(err);
     }

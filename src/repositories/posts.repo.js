@@ -114,9 +114,35 @@ export class PostsRepo {
         },
       },
     });
-    return posts.map((post) => ({
+
+    const nicks = await prisma.posts.findFirst({
+      where: { WriterId: +receiverId },
+      select: {
+        User: {
+          select: {
+            userId: true,
+            UserInfos: {
+              select: {
+                nickname: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const mappedPosts = posts.map((post) => ({
       ...post,
       nickname: post.User?.UserInfos?.nickname,
     }));
+
+    const mappedNicks = {
+      ...nicks,
+    };
+
+    return {
+      posts: mappedPosts,
+      nicks: mappedNicks,
+    };
   };
 }
