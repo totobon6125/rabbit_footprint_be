@@ -115,8 +115,8 @@ export class PostsRepo {
       },
     });
 
-    const nicks = await prisma.posts.findFirst({
-      where: { WriterId: +receiverId },
+    const nicks = await prisma.userInfos.findFirst({
+      where: { UserId: +receiverId },
       select: {
         User: {
           select: {
