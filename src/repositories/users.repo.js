@@ -53,7 +53,7 @@ export class UsersRepo {
     const getRandomUser = await prisma.users.count({
       where: {
         NOT: { userId: +userId },
-        userId: { gte: 21 },
+        userId: { gte: 42 },
       },
     });
     const skip = Math.floor(Math.random() * getRandomUser);
@@ -62,7 +62,7 @@ export class UsersRepo {
       skip: skip,
       where: {
         NOT: { userId: +userId },
-        userId: { gte: 21 },
+        userId: { gte: 42 },
       },
       include: {
         UserInfos: true,
