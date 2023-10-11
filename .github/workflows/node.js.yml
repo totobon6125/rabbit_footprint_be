@@ -25,7 +25,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+        cache: 'yarn'  # npm 대신 yarn을 사용하도록 수정
+    - name: Install Yarn
+      run: npm install -g yarn  # Yarn 설치
+    - run: yarn install  # 의존성 설치
+    - run: yarn build --if-present  # 빌드 스크립트 실행
 
