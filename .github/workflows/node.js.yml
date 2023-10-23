@@ -69,8 +69,8 @@ jobs:
     # codeDeploy 실행
     - name: request deploy to codedeploy
       run: aws deploy create-deployment 
-              --application-name CodeDeploy ${{ secrets.CODE_DEPLOY_APP_NAME }}
+              --application-name CodeDeploy $CODE_DEPLOY_APP_NAME
               --deployment-config-name CodeDeployDefault.AllAtOnce
-              --deployment-group-name CodeDeploy ${{ secrets.DEPLOYMENT_GROUP_NAME }}
-              --s3-location bucket=${{ secrets.BUCKET_NAME }},bundleType=zip,key=${{ secrets.PROJECT_NAME }}/$GITHUB_SHA.zip
+              --deployment-group-name CodeDeploy $DEPLOYMENT_GROUP_NAME
+              --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
 
