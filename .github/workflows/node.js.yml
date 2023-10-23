@@ -26,16 +26,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    #- name: Use Node.js ${{ matrix.node-version }}
-    #  uses: actions/setup-node@v3
-    #  with:
-    #    node-version: ${{ matrix.node-version }}
-    #    cache: 'npm'
-    #- run: yarn ci
-    #- run: yarn run build --if-present
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: yarn ci
+    - run: yarn run build --if-present
     # test 코드 넣고 test 하고
     # 노드 모듈 삭제 로직
-    
+    #- run: rm -rf node_modules
+
     - name: Create .env file
       run: |
         echo "PORT=${{ secrets.PORT }}" > .env
