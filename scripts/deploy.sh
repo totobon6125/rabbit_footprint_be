@@ -9,8 +9,8 @@ echo "> install dependency"
 npm install
 
 # 프로젝트 build
-echo "> build application"
-nest build
+#echo "> build application"
+#nest build
 
 # pm2 실행 또는 리로드
 if pm2 list | grep -q "rabbit-footprint"; then
@@ -18,5 +18,5 @@ if pm2 list | grep -q "rabbit-footprint"; then
   pm2 reload rabbit-footprint
 else
   echo "> start application"
-  pm2 start dist/src/main.js --name rabbit-footprint
+  pm2 start src/app.js --name rabbit-footprint
 fi
