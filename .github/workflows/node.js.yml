@@ -31,7 +31,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn ci
+    - run: yarn
     #- run: yarn run build --if-present
     # test 코드 넣고 test 하고
     # 노드 모듈 삭제 로직
