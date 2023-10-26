@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_NAME: rabbit's_footprint
+  PROJECT_NAME: rabbit_footprint
   BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
   CODE_DEPLOY_APP_NAME: ${{ secrets.CODE_DEPLOY_APP_NAME }}
   DEPLOYMENT_GROUP_NAME: ${{ secrets.DEPLOYMENT_GROUP_NAME }}
@@ -56,12 +56,12 @@ jobs:
           aws-region: ap-northeast-2
       # S3로 업로드하기
       - name: upload to S3
-        run: aws s3 cp ./$GITHUB_SHA.zip s3://s3-bucket-rabbit-print/rabbit's_footprint/$GITHUB_SHA.zip
+        run: aws s3 cp ./$GITHUB_SHA.zip s3://s3-bucket-rabbit-print/rabbit_footprint/$GITHUB_SHA.zip
 
       # codeDeploy 실행
       - name: request deploy to codedeploy
         run: aws deploy create-deployment 
-            --application-name $CODE_DEPLOY_APP_NAME
+            --application-name cd-app-rabbit-FP
             --deployment-config-name CodeDeployDefault.AllAtOnce
-            --deployment-group-name $DEPLOYMENT_GROUP_NAME
-            --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+            --deployment-group-name cd-app-group-rabbit-FP
+            --s3-location bucket=s3-bucket-rabbit-print,bundleType=zip,key=rabbit_footprint/$GITHUB_SHA.zip
