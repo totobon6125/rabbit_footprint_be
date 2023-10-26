@@ -11,12 +11,8 @@ env:
   DEPLOYMENT_GROUP_NAME: ${{ secrets.DEPLOYMENT_GROUP_NAME }}    
 # settings 작업: 환경 변수 설정
 jobs:
-  settings:
-    runs-on: ubuntu-latest
-
 # build 작업: 의존성 설치, 빌드, 테스트, 압축
   build:
-    needs: settings
     runs-on: ubuntu-latest
     strategy:
       matrix:
