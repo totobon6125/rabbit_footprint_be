@@ -16,6 +16,7 @@ jobs:
           echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> $GITHUB_ENV
           echo "CODE_DEPLOY_APP_NAME=${{ secrets.CODE_DEPLOY_APP_NAME }}" >> $GITHUB_ENV
           echo "DEPLOYMENT_GROUP_NAME=${{ secrets.DEPLOYMENT_GROUP_NAME }}" >> $GITHUB_ENV
+          echo "TEST_TESET=${{ secrets.DEPLOYMENT_GROUP_NAME }}" >> $GITHUB_ENV
 
 # build 작업: 의존성 설치, 빌드, 테스트, 압축
   build:
