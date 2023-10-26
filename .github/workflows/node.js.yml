@@ -5,14 +5,21 @@ on:
     branches: [ "main" ]
 
 # workflow 환경 변수 설정
-env:
-  PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
-  BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-  CODE_DEPLOY_APP_NAME: ${{ secrets.CODE_DEPLOY_APP_NAME }}
-  DEPLOYMENT_GROUP_NAME: ${{ secrets.DEPLOYMENT_GROUP_NAME }}
 
 jobs:
+  settings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Environment Variables
+        run: |
+          # 환경 변수를 설정하고 GitHub Environment로 전달
+          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" >> $GITHUB_ENV
+          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> $GITHUB_ENV
+          echo "CODE_DEPLOY_APP_NAME=${{ secrets.CODE_DEPLOY_APP_NAME }}" >> $GITHUB_ENV
+          echo "DEPLOYMENT_GROUP_NAME=${{ secrets.DEPLOYMENT_GROUP_NAME }}" >> $GITHUB_ENV
+
   build:
+    needs: settings
 
     runs-on: ubuntu-latest
 
