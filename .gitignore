@@ -9,3 +9,4 @@ auth.middleware.local.js
 # Keep environment variables out of version control
 .env
 node.js copy.yml
+node.js-test.yml
