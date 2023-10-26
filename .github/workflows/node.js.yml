@@ -31,9 +31,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          cache: 'npm'
       - name: Install Dependencies
-        run: yarn
+        run: npm install
       - name: Remove Node Modules
         run: rm -rf node_modules
       - name: Create .env File
