@@ -4,15 +4,22 @@ on:
   push:
     branches: [ "main" ]
 
-env:
-  PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
-  BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-  CODE_DEPLOY_APP_NAME: ${{ secrets.CODE_DEPLOY_APP_NAME }}
-  DEPLOYMENT_GROUP_NAME: ${{ secrets.DEPLOYMENT_GROUP_NAME }}    
 # settings 작업: 환경 변수 설정
 jobs:
+  settings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Environment Variables
+        # 환경 변수를 설정하고 GitHub Environment로 전달
+        run: |
+          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" >> $GITHUB_ENV
+          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> $GITHUB_ENV
+          echo "CODE_DEPLOY_APP_NAME=${{ secrets.CODE_DEPLOY_APP_NAME }}" >> $GITHUB_ENV
+          echo "DEPLOYMENT_GROUP_NAME=${{ secrets.DEPLOYMENT_GROUP_NAME }}" >> $GITHUB_ENV
+
 # build 작업: 의존성 설치, 빌드, 테스트, 압축
   build:
+    needs: settings
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -55,12 +62,12 @@ jobs:
           aws-region: ap-northeast-2
       # S3로 업로드하기
       - name: upload to S3
-        run: aws s3 cp ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
+        run: aws s3 cp ./$GITHUB_SHA.zip s3://${{ secrets.BUCKET_NAME }}/${{ secrets.PROJECT_NAME }}/$GITHUB_SHA.zip
 
       # codeDeploy 실행
       - name: request deploy to codedeploy
         run: aws deploy create-deployment 
-              --application-name $CODE_DEPLOY_APP_NAME
-              --deployment-config-name CodeDeployDefault.AllAtOnce
-              --deployment-group-name $DEPLOYMENT_GROUP_NAME
-              --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+            --application-name $CODE_DEPLOY_APP_NAME
+            --deployment-config-name CodeDeployDefault.AllAtOnce
+            --deployment-group-name $DEPLOYMENT_GROUP_NAME
+            --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
