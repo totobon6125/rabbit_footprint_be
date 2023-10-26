@@ -8,3 +8,4 @@ signup.ctr.prac.js
 auth.middleware.local.js
 # Keep environment variables out of version control
 .env
+node.js copy.yml
