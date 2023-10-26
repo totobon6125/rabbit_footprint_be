@@ -13,10 +13,10 @@ jobs:
       - name: Set Environment Variables
         run: |
           # 환경 변수를 설정하고 GitHub Environment로 전달
-          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" >> $GITHUB_ENV
-          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> $GITHUB_ENV
-          echo "CODE_DEPLOY_APP_NAME=${{ secrets.CODE_DEPLOY_APP_NAME }}" >> $GITHUB_ENV
-          echo "DEPLOYMENT_GROUP_NAME=${{ secrets.DEPLOYMENT_GROUP_NAME }}" >> $GITHUB_ENV
+          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}"
+          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" 
+          echo "CODE_DEPLOY_APP_NAME=${{ secrets.CODE_DEPLOY_APP_NAME }}" 
+          echo "DEPLOYMENT_GROUP_NAME=${{ secrets.DEPLOYMENT_GROUP_NAME }}" 
 
   build:
     needs: settings
