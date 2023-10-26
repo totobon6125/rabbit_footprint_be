@@ -5,21 +5,16 @@ on:
     branches: [ "main" ]
 
 # workflow 환경 변수 설정
+env:
+  PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+  BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+  CODE_DEPLOY_APP_NAME: ${{ secrets.CODE_DEPLOY_APP_NAME }}
+  DEPLOYMENT_GROUP_NAME: ${{ secrets.DEPLOYMENT_GROUP_NAME }}
 
 jobs:
-  settings:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set Environment Variables
-        run: |
-          # 환경 변수를 설정하고 GitHub Environment로 전달
-          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}"
-          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" 
-          echo "CODE_DEPLOY_APP_NAME=${{ secrets.CODE_DEPLOY_APP_NAME }}" 
-          echo "DEPLOYMENT_GROUP_NAME=${{ secrets.DEPLOYMENT_GROUP_NAME }}" 
 
   build:
-    needs: settings
+
 
     runs-on: ubuntu-latest
 
@@ -58,26 +53,23 @@ jobs:
         # workflow와 동일한 위치의 폴더와 파일을 압축합니다.
         zip -qq -r ./$GITHUB_SHA.zip .
 
-    # AWS 인증하기
-    - name: AWS configure credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        # 엑세스 키 입력
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        # 엑세스 시크릿 키 입력
-        aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
-        # 지역 설정: 서울
-        aws-region: ap-northeast-2
-
-    # S3로 업로드하기
-    - name: upload to S3
-      run: aws s3 cp ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
-
-    # codeDeploy 실행
-    - name: request deploy to codedeploy
-      run: aws deploy create-deployment 
-              --application-name $CODE_DEPLOY_APP_NAME
-              --deployment-config-name CodeDeployDefault.AllAtOnce
-              --deployment-group-name $DEPLOYMENT_GROUP_NAME
+# delivery 작업: AWS로 배포
+  delivery:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: AWS Configure Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          # AWS 액세스 키 및 지역 설정
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      - name: Upload to S3
+        run: aws s3 cp ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
+      - name: Request Deploy to CodeDeploy
+        run: aws deploy create-deployment \
+              --application-name $CODE_DEPLOY_APP_NAME \
+              --deployment-config-name CodeDeployDefault.AllAtOnce \
+              --deployment-group-name $DEPLOYMENT_GROUP_NAME \
               --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
-
