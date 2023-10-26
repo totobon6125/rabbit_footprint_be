@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set Environment Variables
+        # 환경 변수를 설정하고 GitHub Environment로 전달
         run: |
-          # 환경 변수를 설정하고 GitHub Environment로 전달
           echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" >> $GITHUB_ENV
           echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> $GITHUB_ENV
           echo "CODE_DEPLOY_APP_NAME=${{ secrets.CODE_DEPLOY_APP_NAME }}" >> $GITHUB_ENV
@@ -37,8 +37,8 @@ jobs:
       - name: Remove Node Modules
         run: rm -rf node_modules
       - name: Create .env File
+        # env 파일 생성 및 환경 변수 추가
         run: |
-          # env 파일 생성 및 환경 변수 추가
           echo "PORT=${{ secrets.PORT }}" > .env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           echo "jwt_key=${{ secrets.JWT_KEY }}" >> .env
@@ -53,18 +53,21 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: AWS Configure Credentials
+      #AWS 인증하기
+      - name: AWS configure credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          # AWS 액세스 키 및 지역 설정
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
           aws-region: ap-northeast-2
-      - name: Upload to S3
+      # S3로 업로드하기
+      - name: upload to S3
         run: aws s3 cp ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
-      - name: Request Deploy to CodeDeploy
-        run: aws deploy create-deployment \
-              --application-name $CODE_DEPLOY_APP_NAME \
-              --deployment-config-name CodeDeployDefault.AllAtOnce \
-              --deployment-group-name $DEPLOYMENT_GROUP_NAME \
-              --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+
+      # codeDeploy 실행
+      - name: request deploy to codedeploy
+        run: aws deploy create-deployment 
+                --application-name $CODE_DEPLOY_APP_NAME
+                --deployment-config-name CodeDeployDefault.AllAtOnce
+                --deployment-group-name $DEPLOYMENT_GROUP_NAME
+                --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
