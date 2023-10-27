@@ -42,13 +42,13 @@ jobs:
         echo "RF_KEY=${{ secrets.RF_KEY }}" >> .env
       working-directory: ./
 
-    - name: Zip Files
-      run: zip -qq -r ./$GITHUB_SHA.zip .
-
   delivery:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Zip Files
+      run: zip -qq -r ./$GITHUB_SHA.zip .  
+    
     - name: AWS Configure Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
