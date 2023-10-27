@@ -6,7 +6,7 @@ cd $REPOSITORY
 
 # 의존성 설치
 echo "> install dependency"
-npm install
+yarn
 
 # 프로젝트 build
 #echo "> build application"

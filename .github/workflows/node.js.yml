@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     
     - name: Set up Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: 18.x
     
@@ -34,9 +34,14 @@ jobs:
       run: rm -rf node_modules
     
   delivery:
+
     needs: build
+
     runs-on: ubuntu-latest
     steps:
+    - name: checkout commit
+      uses: actions/checkout@v3
+    
     - name: Create .env file
       run: |
         echo "PORT=${{ secrets.PORT }}" > .env
@@ -50,7 +55,7 @@ jobs:
       run: zip -qq -r ./$GITHUB_SHA.zip .  
     
     - name: AWS Configure Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
