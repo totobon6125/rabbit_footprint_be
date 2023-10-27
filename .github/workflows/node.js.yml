@@ -33,6 +33,10 @@ jobs:
     - name: Remove Node Modules
       run: rm -rf node_modules
     
+  delivery:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Create .env file
       run: |
         echo "PORT=${{ secrets.PORT }}" > .env
@@ -42,10 +46,6 @@ jobs:
         echo "RF_KEY=${{ secrets.RF_KEY }}" >> .env
       working-directory: ./
 
-  delivery:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
     - name: Zip Files
       run: zip -qq -r ./$GITHUB_SHA.zip .  
     
