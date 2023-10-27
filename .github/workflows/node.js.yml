@@ -14,28 +14,25 @@ env:
 jobs:
 
   build:
-
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: yarn
-    #- run: yarn run build --if-present
-    # test 코드 넣고 test 하고
-    # 노드 모듈 삭제 로직
-    - run: rm -rf node_modules
-
+        node-version: 18.x
+    
+    - name: Install Dependencies
+      run: yarn
+    
+    #- name: Run Tests
+    #  run: # Add your test command here
+    
+    - name: Remove Node Modules
+      run: rm -rf node_modules
+    
     - name: Create .env file
       run: |
         echo "PORT=${{ secrets.PORT }}" > .env
@@ -43,33 +40,28 @@ jobs:
         echo "jwt_key=${{ secrets.JWT_KEY }}" >> .env
         echo "AC_KEY=${{ secrets.AC_KEY }}" >> .env
         echo "RF_KEY=${{ secrets.RF_KEY }}" >> .env
-      working-directory: ./    
+      working-directory: ./
 
-    # S3로 보낼 압축 파일 생성
-    - name: zip file
-      run: |
-        # zip으로 압축파일 생성
-        # CI.zip은 압축 파일 이름, 나머지는 압축할 코드 파일 또는 폴더를 지정합니다.
-        # workflow와 동일한 위치의 폴더와 파일을 압축합니다.
-        zip -qq -r ./$GITHUB_SHA.zip .
+    - name: Zip Files
+      run: zip -qq -r ./$GITHUB_SHA.zip .
 
-# delivery 작업: AWS로 배포
   delivery:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: AWS Configure Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          # AWS 액세스 키 및 지역 설정
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-      - name: Upload to S3
-        run: aws s3 cp ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
-      - name: Request Deploy to CodeDeploy
-        run: aws deploy create-deployment \
-              --application-name $CODE_DEPLOY_APP_NAME \
-              --deployment-config-name CodeDeployDefault.AllAtOnce \
-              --deployment-group-name $DEPLOYMENT_GROUP_NAME \
-              --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+    - name: AWS Configure Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+    
+    - name: Upload to S3
+      run: aws s3 cp ./$GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
+    
+    - name: Request Deploy to CodeDeploy
+      run: aws deploy create-deployment \
+            --application-name $CODE_DEPLOY_APP_NAME \
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --deployment-group-name $DEPLOYMENT_GROUP_NAME \
+            --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
